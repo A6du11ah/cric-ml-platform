@@ -1,3 +1,7 @@
+import firebaseConfigPromise from './firebase-config.js';
+
+firebaseConfigPromise.then(() => {
+
 const database = firebase.database();
 const storage = firebase.storage();
 
@@ -129,4 +133,7 @@ document.getElementById('logout-button').addEventListener('click', () => {
     }).catch(error => {
         console.error(error);
     });
+});
+}).catch(error => {
+    console.error('Failed to initialize Firebase:', error);
 });

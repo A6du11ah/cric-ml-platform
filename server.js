@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 const { Pool } = require('pg');
 
 
@@ -33,8 +34,7 @@ app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'join.html'));
 });
 
-
-//API points 
+// API points 
 
 app.post('/api/createUser', async (req, res) => {
     const { email, user_name, picture_ref, user_role, provider } = req.body;
@@ -107,7 +107,21 @@ app.post('/api/users/updateName', async (req, res) => {
     }
 });
 
+// API endpoint to get environment variables
+app.get('/api/env', async (req, res) => {
+    const envVariables = {
+        API_KEY: process.env.API_KEY,
+        AUTH_DOMAIN: process.env.AUTH_DOMAIN,
+        DATABASE_URL: process.env.DATABASE_URL,
+        PROJECT_ID: process.env.PROJECT_ID,
+        STORAGE_BUCKET: process.env.STORAGE_BUCKET,
+        MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
+        APP_ID: process.env.APP_ID,
+        MEASUREMENT_ID: process.env.MEASUREMENT_ID
+    };
+    res.status(200).json(envVariables);
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-  

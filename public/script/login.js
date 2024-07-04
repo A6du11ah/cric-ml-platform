@@ -1,3 +1,8 @@
+
+import firebaseConfigPromise from './firebase-config.js';
+
+firebaseConfigPromise.then(() => {
+
 document.getElementById('login-with-google-button').addEventListener('click', async () => {
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -35,4 +40,8 @@ document.getElementById('login-with-google-button').addEventListener('click', as
     } catch (error) {
         console.error(error);
     }
+});
+
+}).catch(error => {
+    console.error('Failed to initialize Firebase:', error);
 });

@@ -1,21 +1,24 @@
-const firebaseConfig = {
+// firebase-config.js
 
-  authDomain: "mychat-793a5.firebaseapp.com",
+const firebaseConfigPromise = fetch('/api/env')
+    .then(response => response.json())
+    .then(config => {
+        const firebaseConfig = {
+            apiKey: config.API_KEY,
+            authDomain: config.AUTH_DOMAIN,
+            databaseURL: config.DATABASE_URL,
+            projectId: config.PROJECT_ID,
+            storageBucket: config.STORAGE_BUCKET,
+            messagingSenderId: config.MESSAGING_SENDER_ID,
+            appId: config.APP_ID,
+            measurementId: config.MEASUREMENT_ID
+        };
+        // Initialize Firebase
+        return firebase.initializeApp(firebaseConfig);
+    })
+    .catch(error => {
+        console.error('Error fetching environment variables:', error);
+        throw error;
+    });
 
-  databaseURL: "https://mychat-793a5-default-rtdb.firebaseio.com",
-
-  projectId: "mychat-793a5",
-
-  storageBucket: "mychat-793a5.appspot.com",
-
-  messagingSenderId: "1079208780500",
-
-  appId: "1:1079208780500:web:b26695d70b892fb5285141",
-
-  measurementId: "G-150SHR7M14"
-
-
-};
-
-  
-firebase.initializeApp(firebaseConfig);
+export default firebaseConfigPromise;
