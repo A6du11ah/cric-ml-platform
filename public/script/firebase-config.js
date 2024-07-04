@@ -1,7 +1,5 @@
 const firebaseConfig = {
 
-  apiKey: "AIzaSyBcVp-XOWgLhPxh82PLT1vbnAPxPpTXIb4",
-
   authDomain: "mychat-793a5.firebaseapp.com",
 
   databaseURL: "https://mychat-793a5-default-rtdb.firebaseio.com",
