@@ -26,7 +26,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'dummyProfile.html'));
+    res.sendFile(path.join(__dirname, 'test-pages', 'dummyProfile.html'));
 });
 
 app.get('/join', (req, res) => {
