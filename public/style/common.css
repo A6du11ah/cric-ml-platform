@@ -1,0 +1,165 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('./font/Inter.ttf') format('truetytpe');
+}
+
+@font-face {
+    font-family: 'Montserrat Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Regular'), url('./font/Montserrat-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Italic'), url('./font/Montserrat-Italic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Thin';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Thin'), url('./font/Montserrat-Thin.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Thin Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Thin Italic'), url('./font/Montserrat-ThinItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat ExtraLight';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat ExtraLight'), url('./font/Montserrat-ExtraLight.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat ExtraLight Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat ExtraLight Italic'), url('./font/Montserrat-ExtraLightItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Light'), url('./font/Montserrat-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Light Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Light Italic'), url('./font/Montserrat-LightItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Medium'), url('./font/Montserrat-Medium.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Medium Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Medium Italic'), url('./font/Montserrat-MediumItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat SemiBold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat SemiBold'), url('./font/Montserrat-SemiBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat SemiBold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat SemiBold Italic'), url('./font/Montserrat-SemiBoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Bold'), url('./font/Montserrat-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Bold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Bold Italic'), url('./font/Montserrat-BoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat ExtraBold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat ExtraBold'), url('./font/Montserrat-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat ExtraBold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat ExtraBold Italic'), url('./font/Montserrat-ExtraBoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Black';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Black'), url('./font/Montserrat-Black.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Black Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Black Italic'), url('./font/Montserrat-BlackItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('./font/Poppins.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'AlphaSlabOne';
+    src: url('./font/AlfaSlabOne.ttf') format('truetype');
+}
+
+:root {
+    --color-pallete-prime-000: #91272C;
+    --color-pallete-prime-001: #D9BB8A;
+    --color-pallete-prime-002: #243151;
+    --color-pallete-prime-003: #ECE3DF;
+    --color-pallete-prime-004: #FFFFFF;
+
+    --color-pallete-aux-000: #C5C5C5;
+    --color-pallete-aux-001: #474747;
+    --color-pallete-aux-002: #FFE000;
+    --color-pallete-aux-003: #FF6800;
+    --color-pallete-aux-004: #383838;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: 'Inter';
+    font-size: 16px;
+    user-select: none;
+}
