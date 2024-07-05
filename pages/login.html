@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>cric.ml | Login</title>
 
     <link rel="stylesheet" href="/public/style/common.css">
     <link rel="stylesheet" href="/public/style/navigation.css">
     <link rel="stylesheet" href="/public/style/login.css">
 </head>
+
 <body>
     <nav class="navigation-bar">
         <div class="website-name-container">
@@ -32,7 +34,7 @@
                 </div>
             </div>
             <div class="login-button-container">
-                <button class="login-button">
+                <button id="login-with-google-button" class="login-button">
                     <div class="login-button-icon-container">
                         <img class="login-button-icon" src="/public/image/icon/google-logo.svg" alt="google-icon">
                     </div>
@@ -40,7 +42,7 @@
                         Continue with Google
                     </div>
                 </button>
-                <button class="login-button">
+                <button id="login-with-microsoft-button" class="login-button">
                     <div class="login-button-icon-container">
                         <img class="login-button-icon" src="/public/image/icon/microsoft-logo.svg" alt="microsoft-icon">
                     </div>
@@ -62,5 +64,14 @@
             </div>
         </div> -->
     </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-storage.js"></script>
+
+    <script type="module" src="/public/script/login.js"></script>
 </body>
+
 </html>
