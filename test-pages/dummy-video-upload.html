@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Upload</title>
+    <link rel="stylesheet" href="/public/style/dummy-video-upload-styles.css">
+</head>
+
+<body>
+    <main>
+        <div class="upload-container">
+            <div class="video-info"><br><br><br><br><br>
+                <h2>Video Information</h2>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="text" name="video_title" placeholder="Add title" required>
+                    <textarea name="description" placeholder="Add description" required></textarea>
+                    <label>
+                        <input type="checkbox" name="ispublic"> Public
+                    </label>
+                    <input type="hidden" name="creation_date" id="creationDate">
+                    <input type="hidden" name="video_length" id="videoLength">
+                    <input type="hidden" name="video_size" id="videoSize">
+                    <input type="hidden" name="video_format" id="videoFormat">
+                    <input type="hidden" name="user_id" id="user_id">
+                    <input type="hidden" name="video_file_ref" id="VideoFileRef">
+                    <div class="upload-section">
+                        <h2>Upload from Device</h2>
+                        <div class="upload-box">
+                            <p>Drag your video or <span class="browse-btn">browse</span></p>
+                            <input type="file" name="video" accept=".mp4, .mkv, .mov" class="file-input" required>
+                        </div>
+                        <p>Only support .mp4, .mkv, and .mov files</p>
+
+                        <div class="buttons">
+                            <button type="button" id="cancel-button">Cancel</button>
+                            <button type="submit">Upload</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-storage.js"></script>
+
+
+    <script type="module" src="/public/script/upload-video.js"></script>
+
+</body>
+
+</html>

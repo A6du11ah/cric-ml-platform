@@ -1,0 +1,159 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    font-size: 24px;
+}
+
+header nav a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.upload-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 70%;
+    max-width: 1000px;
+    position: relative;
+}
+
+.video-info,
+.upload-section {
+    flex: 1;
+    padding: 20px;
+}
+
+.divider {
+    width: 1px;
+    background-color: #ccc;
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.video-info h2,
+.upload-section h2 {
+    margin-top: 0;
+}
+
+form input[type="text"],
+form textarea,
+input[type="url"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form textarea {
+    height: 80px;
+    /* Adjusted height for the description box */
+}
+
+.upload-box {
+    border: 2px dashed #ccc;
+    padding: 40px;
+    text-align: center;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    position: relative;
+    width: calc(100% - 40px);
+    box-sizing: border-box;
+}
+
+.upload-box p {
+    margin: 0;
+}
+
+.browse-btn {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.upload-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.or-divider span {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:first-child {
+    background-color: #ccc;
+}
+
+button:last-child {
+    background-color: #333;
+    color: #fff;
+}

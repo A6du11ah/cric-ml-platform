@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const fs = require('fs');
+const { execFile } = require('child_process');
 require('dotenv').config();
 const { Pool } = require('pg');
 
@@ -16,11 +19,15 @@ const pool = new Pool({
     port: '5432',
 });
 
+const upload = multer({ dest: 'uploads/' });
+
 app.use(bodyParser.json());
 
 // const cors = require('cors');
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/files', express.static(path.join(__dirname, 'files')));
 
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'login.html'));
@@ -30,11 +37,78 @@ app.get('/profile', (req, res) => {
     res.sendFile(path.join(__dirname, 'test-pages', 'dummyProfile.html'));
 });
 
+app.get('/upload-page', (req, res) => {
+    res.sendFile(path.join(__dirname, 'test-pages', 'dummy-video-upload.html'));
+});
+
+
 app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'join.html'));
 });
 
-// API points 
+// API end points 
+app.post('/upload-video', upload.single('video'), (req, res) => {
+    try {
+        const { video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref } = req.body;
+
+        const scriptPath = path.join(__dirname, 'analyze_video.py');
+        const videoPathInStorage = video_file_ref;
+        const analytic_json_dummy = path.join(__dirname, 'files');
+        const userVideoPath = user_id + " posted " + video_title;
+
+        // Call Python script for video analysis
+        execFile('python', [scriptPath, userVideoPath, video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, videoPathInStorage, analytic_json_dummy], async (error, stdout, stderr) => {
+            if (error) {
+                console.error('Error executing Python script:', error);
+                console.error('stderr:', stderr);
+                return res.status(500).send({ message: 'Error analyzing video' });
+            }
+
+            let result, analytic_json, reJSON;
+            try {
+                result = JSON.parse(stdout);
+                analytic_json = JSON.stringify(result);
+                reJSON = JSON.parse(analytic_json);
+
+                console.log(reJSON);
+
+                const videoData = {
+                    video_title,
+                    description,
+                    ispublic,
+                    creation_date,
+                    video_length,
+                    video_size,
+                    video_format,
+                    user_id,
+                    video_file_ref: videoPathInStorage,
+                    analytic_json: analytic_json
+                };
+
+                try {
+                    const dbResult = await pool.query(
+                        'INSERT INTO videos (video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref, analytic_json) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *', 
+                        [video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref, analytic_json]
+                    );
+                    return res.status(201).json(dbResult.rows[0]);
+                } catch (err) {
+                    console.error(err);
+                    return res.status(500).json({ error: 'Database error' });
+                }
+            } catch (parseError) {
+                console.error('Error parsing JSON output from Python script:', parseError);
+                console.error('stdout:', stdout);
+                return res.status(500).send({ message: 'Error parsing analysis result' });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Error uploading file' });
+    }
+});
+
+
+
 
 app.post('/api/createUser', async (req, res) => {
     const { email, user_name, picture_ref, user_role, provider } = req.body;

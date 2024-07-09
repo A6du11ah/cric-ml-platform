@@ -13,7 +13,7 @@ firebase.auth().onAuthStateChanged(user => {
             console.error('Error fetching user data:', error);
         });
     } else {
-        window.location.href = 'index.html'; 
+        window.location.href = 'http://localhost:3000/login'; 
     }
 });
 
@@ -123,17 +123,17 @@ function toggleEditOptions(show) {
 }
 
 document.getElementById('logout-button').addEventListener('click', () => {
-    firebase.database().ref('users/' + firebase.auth().currentUser.uid).update({
-        logoutTime: new Date().toString(),
-        login_status: 'false',
-        logout_status: 'true'
-    });
     firebase.auth().signOut().then(() => {
-        window.location.href = 'index.html';
+        window.location.href = 'http://localhost:3000/pages/login'; 
     }).catch(error => {
         console.error(error);
     });
 });
+
+document.getElementById('upload-video-button').addEventListener('click', () => {
+    window.location.href = 'http://localhost:3000/upload-page'; 
+});
+
 }).catch(error => {
     console.error('Failed to initialize Firebase:', error);
 });
