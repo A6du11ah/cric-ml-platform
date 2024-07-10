@@ -26,10 +26,13 @@ app.use(bodyParser.json());
 // const cors = require('cors');
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/files', express.static(path.join(__dirname, 'files')));
 
 app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'login.html'));
+});
+
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'login.html'));
 });
 

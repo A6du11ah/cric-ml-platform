@@ -94,7 +94,7 @@ function setupEditButtons(userData) {
             }
         }
 
-        displayUserInfo(userData); // Refresh displayed user info
+        displayUserInfo(userData); 
         toggleEditName(false);
         toggleEditOptions(false);
         toggleEditPicture(false);
@@ -124,7 +124,7 @@ function toggleEditOptions(show) {
 
 document.getElementById('logout-button').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
-        window.location.href = 'http://localhost:3000/pages/login'; 
+        window.location.href = 'http://localhost:3000/login'; 
     }).catch(error => {
         console.error(error);
     });

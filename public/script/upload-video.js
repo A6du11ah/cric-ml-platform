@@ -82,7 +82,7 @@ firebaseConfigPromise.then(() => {
                 console.error('Error fetching user data:', error);
             });
         } else {
-            window.location.href = 'http://localhost:3000/pages/login.html'; 
+            window.location.href = 'http://localhost:3000/profile'; 
         }
     });
 
