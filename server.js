@@ -49,17 +49,15 @@ app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'join.html'));
 });
 
-// API end points 
 app.post('/upload-video', upload.single('video'), (req, res) => {
     try {
-        const { video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref } = req.body;
+        const { video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref, video_file_name } = req.body;
 
         const scriptPath = path.join(__dirname, 'analyze_video.py');
         const videoPathInStorage = video_file_ref;
         const analytic_json_dummy = path.join(__dirname, 'files');
         const userVideoPath = user_id + " posted " + video_title;
 
-        // Call Python script for video analysis
         execFile('python', [scriptPath, userVideoPath, video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, videoPathInStorage, analytic_json_dummy], async (error, stdout, stderr) => {
             if (error) {
                 console.error('Error executing Python script:', error);
@@ -85,13 +83,14 @@ app.post('/upload-video', upload.single('video'), (req, res) => {
                     video_format,
                     user_id,
                     video_file_ref: videoPathInStorage,
-                    analytic_json: analytic_json
+                    analytic_json: analytic_json,
+                    video_file_name
                 };
 
                 try {
                     const dbResult = await pool.query(
-                        'INSERT INTO videos (video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref, analytic_json) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *', 
-                        [video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref, analytic_json]
+                        'INSERT INTO videos (video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref, video_file_name, analytic_json) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *', 
+                        [video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, video_file_ref, video_file_name, analytic_json]
                     );
                     return res.status(201).json(dbResult.rows[0]);
                 } catch (err) {
@@ -183,6 +182,37 @@ app.post('/api/users/updateName', async (req, res) => {
         res.status(500).json({ error: 'Database error' });
     }
 });
+
+app.delete('/delete-video', async (req, res) => {
+    const { filePath, videoId } = req.body;
+
+    try {
+        const deleteResult = await pool.query('DELETE FROM videos WHERE video_id = $1 RETURNING *', [videoId]);
+        if (deleteResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Video not found in the database' });
+        }
+
+        res.status(200).json({ message: 'Video deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting video:', error);
+        res.status(500).json({ error: 'Error deleting video' });
+    }
+});
+
+
+app.get('/videos/:userId', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const result = await pool.query('SELECT * FROM videos WHERE user_id = $1', [userId]);
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+
 
 // API endpoint to get environment variables
 app.get('/api/env', async (req, res) => {

@@ -51,6 +51,7 @@ firebaseConfigPromise.then(() => {
                             () => {
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                                     document.getElementById('VideoFileRef').value = downloadURL;
+                                    document.getElementById('VideoFileName').value = file.name;
 
                                     const formData = new FormData(document.getElementById('uploadForm'));
 
@@ -65,6 +66,7 @@ firebaseConfigPromise.then(() => {
                                             alert(data.error);
                                         } else {
                                             alert('Video uploaded successfully');
+                                            window.location.href = 'http://localhost:3000/profile'; 
                                         }
                                     })
                                     .catch(error => {
