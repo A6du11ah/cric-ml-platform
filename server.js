@@ -28,6 +28,9 @@ app.use(bodyParser.json());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/files', express.static(path.join(__dirname, 'files')));
 
+
+/////////////////////////////////////////////// PAGE REDIRECTIONS ///////////////////////////////////////////////////////////////////
+
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'login.html'));
 });
@@ -48,6 +51,9 @@ app.get('/upload-page', (req, res) => {
 app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'join.html'));
 });
+
+
+/////////////////////////////////////////////// API ENDPOINTS  ///////////////////////////////////////////////////////////////////
 
 app.post('/upload-video', upload.single('video'), (req, res) => {
     try {
