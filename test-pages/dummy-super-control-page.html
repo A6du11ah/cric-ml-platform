@@ -1,0 +1,75 @@
+<!-- 
+users table: 
+"user_id"
+"member_since"
+"is_banned"
+"user_role"
+"picture_ref"
+"provider"
+"user_name"
+"email"
+
+videos table:
+"video_id"
+"user_id"
+"ispublic"
+"creation_date"
+"video_length"
+"video_size"
+"description"
+"analytic_json"
+"video_file_ref"
+"video_title"
+"video_format"
+"video_file_name"
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <h1>Users</h1>
+    <table id="users-table">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Date Joined</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- User rows will be populated here -->
+        </tbody>
+    </table>
+
+    <h1>Videos</h1>
+    <table id="videos-table">
+        <thead>
+            <tr>
+                <th>Video Title (Username)</th>
+                <th>Public/Private</th>
+                <th>Date Uploaded</th>
+                <th>Play</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Video rows will be populated here -->
+        </tbody>
+    </table>
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-storage.js"></script>
+
+    <script type="module" src="/public/script/super-control.js"></script>
+</body>
+
+</html>

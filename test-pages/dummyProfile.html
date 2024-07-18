@@ -27,7 +27,6 @@
         <button id="save-button" style="display:none;">Save</button>
     </div>
 
-
     <button id="upload-video-button">Upload Video</button>
 
     <div id="video-list">
@@ -36,6 +35,23 @@
     </div>
 
     <button id="logout-button">Log Out</button>
+
+    <!-- Modal for Editing Video Details -->
+    <div id="edit-video-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button" id="close-modal-button">&times;</span>
+            <h2>Edit Video</h2>
+            <label for="video-title">Title:</label>
+            <input type="text" id="video-title">
+            <label for="video-description">Description:</label>
+            <textarea id="video-description"></textarea>
+            <label>
+                <input type="checkbox" name="ispublic" id="myCheckbox"> Public
+            </label>
+            <button id="save-video-button">Save</button>
+            <button id="delete-video-button">Delete Video</button>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>

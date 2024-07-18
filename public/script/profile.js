@@ -52,12 +52,12 @@ firebaseConfigPromise.then(() => {
                     videoElement.src = video.video_file_ref;
                     videoElement.controls = true;
 
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.textContent = 'Delete';
-                    deleteBtn.onclick = () => deleteVideo(video.video_file_ref, video.video_file_name, li, video.video_id); 
+                    const editBtn = document.createElement('button');
+                    editBtn.textContent = 'Edit';
+                    editBtn.onclick = () => openEditModal(video);
 
                     li.appendChild(videoElement);
-                    li.appendChild(deleteBtn);
+                    li.appendChild(editBtn);
                     videoItems.appendChild(li);
                 });
             })
@@ -66,17 +66,65 @@ firebaseConfigPromise.then(() => {
             });
     }
 
-    function deleteVideo(fileRef, filePath, listItem, videoId) {
+    function openEditModal(video) {
+        const modal = document.getElementById('edit-video-modal');
+        const titleInput = document.getElementById('video-title');
+        const descriptionInput = document.getElementById('video-description');
+        const saveButton = document.getElementById('save-video-button');
+        const deleteButton = document.getElementById('delete-video-button');
+        const checkPublic = document.getElementById('myCheckbox');
+    
+        checkPublic.checked = video.ispublic;
+    
+        titleInput.value = video.video_title || '';
+        descriptionInput.value = video.description || '';
+    
+        modal.style.display = 'block';
+    
+        saveButton.onclick = () => saveVideoDetails(video.video_id, titleInput.value, descriptionInput.value, checkPublic.checked);
+        deleteButton.onclick = () => deleteVideo(video.video_file_ref, video.video_file_name, modal, video.video_id);
+        
+        document.getElementById('close-modal-button').onclick = () => {
+            modal.style.display = 'none';
+        };
+    }
+    
+    async function saveVideoDetails(videoId, title, description, isPublic) {
+        console.log(isPublic)
+        try {
+            const response = await fetch('/api/videos/update-video-details', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ videoId, title, description, isPublic })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to update video details');
+            }
+        console.log(isPublic)
+            
+            document.getElementById('edit-video-modal').style.display = 'none';
+            loadVideos(uniqueUserID); 
+        } catch (error) {
+            console.error('Error updating video details:', error);
+        }
+    }
+    
+
+
+    function deleteVideo(fileRef, filePath, modal, videoId) {
         const videoItems = document.getElementById('video-items');
         const storageRef = storage.ref();
         const videoRef = storageRef.child(`videos/${uniqueUserID}/${filePath}`);
     
         videoRef.delete().then(async () => {
-            await fetch('/delete-video', {
+            await fetch('/api/videos/delete-video', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
-                },
+                }, 
                 body: JSON.stringify({ fileRef, videoId })
             })
             .then(response => response.json())
@@ -86,14 +134,15 @@ firebaseConfigPromise.then(() => {
                     alert('Error deleting video');
                 } else {
                     console.log('Deleted:', filePath);
-                    videoItems.removeChild(listItem);
+                    document.getElementById('edit-video-modal').style.display = 'none';
+                    loadVideos(uniqueUserID);  // Reload videos to update the list
                 }
             })
         }).catch((error) => {
             console.error('Error deleting video:', error);
         });
     }
-    
+
     function displayUserInfo(userData) {
         const profileInfo = document.getElementById('profile-info');
         document.getElementById('display-name').innerText = userData.user_name;
@@ -200,3 +249,4 @@ firebaseConfigPromise.then(() => {
 }).catch(error => {
     console.error('Failed to initialize Firebase:', error);
 });
+

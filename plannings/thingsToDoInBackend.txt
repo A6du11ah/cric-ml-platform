@@ -1,0 +1,3 @@
+Location tracking remember!
+
+Firebase access from frontend or backend?

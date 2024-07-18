@@ -36,7 +36,8 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'login.html'));
+    // res.sendFile(path.join(__dirname, 'pages', 'login.html'));
+    res.sendFile(path.join(__dirname, 'test-pages', 'api-testing-page.html'));
 });
 
 app.get('/profile', (req, res) => {
@@ -47,6 +48,9 @@ app.get('/upload-page', (req, res) => {
     res.sendFile(path.join(__dirname, 'test-pages', 'dummy-video-upload.html'));
 });
 
+app.get('/super-user', (req, res) => {
+    res.sendFile(path.join(__dirname, 'test-pages', 'dummy-super-control-page.html'));
+});
 
 app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'join.html'));
@@ -61,10 +65,10 @@ app.post('/upload-video', upload.single('video'), (req, res) => {
 
         const scriptPath = path.join(__dirname, 'analyze_video.py');
         const videoPathInStorage = video_file_ref;
-        const analytic_json_dummy = path.join(__dirname, 'files');
-        const userVideoPath = user_id + " posted " + video_title;
+        const analytic_json_saving_path = path.join(__dirname, 'files');
+        const userVideoPath = user_id + "_" + video_title;
 
-        execFile('python', [scriptPath, userVideoPath, video_title, description, ispublic, creation_date, video_length, video_size, video_format, user_id, videoPathInStorage, analytic_json_dummy], async (error, stdout, stderr) => {
+        execFile('python', [scriptPath, userVideoPath, analytic_json_saving_path], async (error, stdout, stderr) => {
             if (error) {
                 console.error('Error executing Python script:', error);
                 console.error('stderr:', stderr);
@@ -116,8 +120,6 @@ app.post('/upload-video', upload.single('video'), (req, res) => {
 });
 
 
-
-
 app.post('/api/createUser', async (req, res) => {
     const { email, user_name, picture_ref, user_role, provider } = req.body;
     const member_since = new Date(); 
@@ -135,6 +137,7 @@ app.post('/api/createUser', async (req, res) => {
             const result = await pool.query(
                 'INSERT INTO users (email, user_name, picture_ref, is_banned, user_role, provider, member_since) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
                 [email, user_name, picture_ref, is_banned, user_role, provider, member_since]
+                //Location tracking remember!
             );
             res.status(201).json(result.rows[0]);
         }
@@ -189,7 +192,7 @@ app.post('/api/users/updateName', async (req, res) => {
     }
 });
 
-app.delete('/delete-video', async (req, res) => {
+app.delete('/api/videos/delete-video', async (req, res) => {
     const { filePath, videoId } = req.body;
 
     try {
@@ -206,6 +209,26 @@ app.delete('/delete-video', async (req, res) => {
 });
 
 
+app.post('/api/videos/update-video-details', async (req, res) => {
+    const { videoId, title, description, isPublic } = req.body;
+
+    console.log('Received data:', { videoId, title, description, isPublic });
+
+    try {
+        const result = await pool.query(
+            'UPDATE videos SET video_title = $2, description = $3, ispublic = $4 WHERE video_id = $1 RETURNING *',
+            [videoId, title, description, isPublic]
+        );
+        res.status(200).json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+
+
+
 app.get('/videos/:userId', async (req, res) => {
     const { userId } = req.params;
 
@@ -217,7 +240,6 @@ app.get('/videos/:userId', async (req, res) => {
         res.status(500).json({ error: 'Database error' });
     }
 });
-
 
 
 // API endpoint to get environment variables
@@ -234,6 +256,67 @@ app.get('/api/env', async (req, res) => {
     };
     res.status(200).json(envVariables);
 });
+
+
+/////////////// SUPER USER API ENDPOINTS ///////////////////////////
+
+app.get('/api/users/getAll', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM users');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+app.get('/api/videos/getAll', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT videos.*, users.user_name FROM videos JOIN users ON videos.user_id = users.user_id');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+app.post('/api/users/updateStatus', async (req, res) => {
+    const { userId, isBanned } = req.body;
+    try {
+        const result = await pool.query('UPDATE users SET is_banned = $2 WHERE user_id = $1 RETURNING *', [userId, isBanned]);
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+app.delete('/api/videos/delete', async (req, res) => {
+    const { videoId } = req.body;
+    try {
+        const result = await pool.query('DELETE FROM videos WHERE video_id = $1 RETURNING *', [videoId]);
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+
+
+
+// Dummy API 1
+app.get('/api1', (req, res) => {
+    res.send('API 1 response');
+});
+
+// Dummy API 2
+app.get('/api2', (req, res) => {
+    res.send('API 2 response');
+});
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
